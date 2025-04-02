@@ -250,44 +250,44 @@ int main(int argc, char *argv[]){
 
 
 
-//    int array_of_starts_XY[4]={0,0,0,0};
-//    int array_of_starts_XZ[4]={0,0,0,0};
-//    int array_of_starts_YZ[4]={0,0,0,0};
+   int array_of_starts_XY[4]={0,0,0,0};
+   int array_of_starts_XZ[4]={0,0,0,0};
+   int array_of_starts_YZ[4]={0,0,0,0};
  MPI_Datatype plane_XY,plane_XZ,plane_YZ;
- MPI_Datatype plane_XY_send_low,plane_XZ_send_low,plane_YZ_send_low;
- MPI_Datatype plane_XY_send_high,plane_XZ_send_high,plane_YZ_send_high;
- MPI_Datatype plane_XY_recv_low,plane_XZ_recv_low,plane_YZ_recv_low;
- MPI_Datatype plane_XY_recv_high,plane_XZ_recv_high,plane_YZ_recv_high;
- MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_XY,array_of_starts_send_low,MPI_ORDER_C, MPI_FLOAT,&plane_XY_send_low);
- MPI_Type_commit(&plane_XY_send_low);
- MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_XZ,array_of_starts_send_low,MPI_ORDER_C, MPI_FLOAT,&plane_XZ_send_low);
- MPI_Type_commit(&plane_XZ_send_low);
- MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_YZ,array_of_starts_send_low,MPI_ORDER_C, MPI_FLOAT,&plane_YZ_send_low);
- MPI_Type_commit(&plane_YZ_send_low);
- MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_XY,array_of_starts_XY_recv_low,MPI_ORDER_C, MPI_FLOAT,&plane_XY_recv_low);
- MPI_Type_commit(&plane_XY_recv_low);
- MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_XZ,array_of_starts_XZ_recv_low,MPI_ORDER_C, MPI_FLOAT,&plane_XZ_recv_low);
- MPI_Type_commit(&plane_XZ_recv_low);
- MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_YZ,array_of_starts_YZ_recv_low,MPI_ORDER_C, MPI_FLOAT,&plane_YZ_recv_low);
- MPI_Type_commit(&plane_YZ_recv_low);
- MPI_Type_create_subarray(4, array_of_sizes, array_of_subsizes_XY, array_of_starts_XY_send_high, MPI_ORDER_C, MPI_FLOAT, &plane_XY_send_high);
- MPI_Type_commit(&plane_XY_send_high);
- MPI_Type_create_subarray(4, array_of_sizes, array_of_subsizes_XZ, array_of_starts_XZ_send_high, MPI_ORDER_C, MPI_FLOAT, &plane_XZ_send_high);
- MPI_Type_commit(&plane_XZ_send_high);
- MPI_Type_create_subarray(4, array_of_sizes, array_of_subsizes_YZ, array_of_starts_YZ_send_high, MPI_ORDER_C, MPI_FLOAT, &plane_YZ_send_high);
- MPI_Type_commit(&plane_YZ_send_high);
- MPI_Type_create_subarray(4, array_of_sizes, array_of_subsizes_XY, array_of_starts_XY_recv_high, MPI_ORDER_C, MPI_FLOAT, &plane_XY_recv_high);
- MPI_Type_commit(&plane_XY_recv_high);
- MPI_Type_create_subarray(4, array_of_sizes, array_of_subsizes_XZ, array_of_starts_XZ_recv_high, MPI_ORDER_C, MPI_FLOAT, &plane_XZ_recv_high);
- MPI_Type_commit(&plane_XZ_recv_high);
- MPI_Type_create_subarray(4, array_of_sizes, array_of_subsizes_YZ, array_of_starts_YZ_recv_high, MPI_ORDER_C, MPI_FLOAT, &plane_YZ_recv_high);
- MPI_Type_commit(&plane_YZ_recv_high);
-//    MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_YZ,array_of_starts_YZ,MPI_ORDER_C, MPI_FLOAT,&plane_YZ);
-//    MPI_Type_commit(&plane_YZ);
-//    MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_XZ,array_of_starts_XZ,MPI_ORDER_C, MPI_FLOAT,&plane_XZ);
-//    MPI_Type_commit(&plane_XZ);
-//    MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_XY,array_of_starts_XY,MPI_ORDER_C, MPI_FLOAT,&plane_XY);
-//    MPI_Type_commit(&plane_XY);
+//  MPI_Datatype plane_XY_send_low,plane_XZ_send_low,plane_YZ_send_low;
+//  MPI_Datatype plane_XY_send_high,plane_XZ_send_high,plane_YZ_send_high;
+//  MPI_Datatype plane_XY_recv_low,plane_XZ_recv_low,plane_YZ_recv_low;
+//  MPI_Datatype plane_XY_recv_high,plane_XZ_recv_high,plane_YZ_recv_high;
+//  MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_XY,array_of_starts_send_low,MPI_ORDER_C, MPI_FLOAT,&plane_XY_send_low);
+//  MPI_Type_commit(&plane_XY_send_low);
+//  MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_XZ,array_of_starts_send_low,MPI_ORDER_C, MPI_FLOAT,&plane_XZ_send_low);
+//  MPI_Type_commit(&plane_XZ_send_low);
+//  MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_YZ,array_of_starts_send_low,MPI_ORDER_C, MPI_FLOAT,&plane_YZ_send_low);
+//  MPI_Type_commit(&plane_YZ_send_low);
+//  MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_XY,array_of_starts_XY_recv_low,MPI_ORDER_C, MPI_FLOAT,&plane_XY_recv_low);
+//  MPI_Type_commit(&plane_XY_recv_low);
+//  MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_XZ,array_of_starts_XZ_recv_low,MPI_ORDER_C, MPI_FLOAT,&plane_XZ_recv_low);
+//  MPI_Type_commit(&plane_XZ_recv_low);
+//  MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_YZ,array_of_starts_YZ_recv_low,MPI_ORDER_C, MPI_FLOAT,&plane_YZ_recv_low);
+//  MPI_Type_commit(&plane_YZ_recv_low);
+//  MPI_Type_create_subarray(4, array_of_sizes, array_of_subsizes_XY, array_of_starts_XY_send_high, MPI_ORDER_C, MPI_FLOAT, &plane_XY_send_high);
+//  MPI_Type_commit(&plane_XY_send_high);
+//  MPI_Type_create_subarray(4, array_of_sizes, array_of_subsizes_XZ, array_of_starts_XZ_send_high, MPI_ORDER_C, MPI_FLOAT, &plane_XZ_send_high);
+//  MPI_Type_commit(&plane_XZ_send_high);
+//  MPI_Type_create_subarray(4, array_of_sizes, array_of_subsizes_YZ, array_of_starts_YZ_send_high, MPI_ORDER_C, MPI_FLOAT, &plane_YZ_send_high);
+//  MPI_Type_commit(&plane_YZ_send_high);
+//  MPI_Type_create_subarray(4, array_of_sizes, array_of_subsizes_XY, array_of_starts_XY_recv_high, MPI_ORDER_C, MPI_FLOAT, &plane_XY_recv_high);
+//  MPI_Type_commit(&plane_XY_recv_high);
+//  MPI_Type_create_subarray(4, array_of_sizes, array_of_subsizes_XZ, array_of_starts_XZ_recv_high, MPI_ORDER_C, MPI_FLOAT, &plane_XZ_recv_high);
+//  MPI_Type_commit(&plane_XZ_recv_high);
+//  MPI_Type_create_subarray(4, array_of_sizes, array_of_subsizes_YZ, array_of_starts_YZ_recv_high, MPI_ORDER_C, MPI_FLOAT, &plane_YZ_recv_high);
+//  MPI_Type_commit(&plane_YZ_recv_high);
+   MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_YZ,array_of_starts_YZ,MPI_ORDER_C, MPI_FLOAT,&plane_YZ);
+   MPI_Type_commit(&plane_YZ);
+   MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_XZ,array_of_starts_XZ,MPI_ORDER_C, MPI_FLOAT,&plane_XZ);
+   MPI_Type_commit(&plane_XZ);
+   MPI_Type_create_subarray(4,array_of_sizes,array_of_subsizes_XY,array_of_starts_XY,MPI_ORDER_C, MPI_FLOAT,&plane_XY);
+   MPI_Type_commit(&plane_XY);
  int process_x_coordinate,process_y_coordinate,process_z_coordinate;
  process_x_coordinate=myrank/(py*pz);
  process_y_coordinate=(myrank/pz)%py;
@@ -305,63 +305,54 @@ int main(int argc, char *argv[]){
 
 
 
- if(x_high!=MPI_PROC_NULL){
-     MPI_Isend(&local_data[0][0][0][0],1,plane_YZ_send_high,x_high,0,MPI_COMM_WORLD,&send_request_x[1]);
-     MPI_Irecv(&local_data[0][0][0][0],1,plane_YZ_recv_high,x_high,1,MPI_COMM_WORLD,&recv_request_x[1]);
- }
- if(x_low!=MPI_PROC_NULL){
-     MPI_Irecv(&local_data[0][0][0][0],1,plane_YZ_recv_low,x_low,0,MPI_COMM_WORLD,&recv_request_x[0]);
-     MPI_Isend(&local_data[0][0][0][0],1,plane_YZ_send_low,x_low,1,MPI_COMM_WORLD,&send_request_x[0]);
- }
- if(y_high!=MPI_PROC_NULL){
-     MPI_Isend(&local_data[0][0][0][0],1,plane_XZ_send_high,y_high,0,MPI_COMM_WORLD,&send_request_y[1]);
-     MPI_Irecv(&local_data[0][0][0][0],1,plane_XZ_recv_high,y_high,1,MPI_COMM_WORLD,&recv_request_y[1]);
- }
- if(y_low!=MPI_PROC_NULL){
-     MPI_Irecv(&local_data[0][0][0][0],1,plane_XZ_recv_low,y_low,0,MPI_COMM_WORLD,&recv_request_y[0]);
-     MPI_Isend(&local_data[0][0][0][0],1,plane_XZ_send_low,y_low,1,MPI_COMM_WORLD,&send_request_y[0]);
- }
- float temp[9];
-//   if(myrank==1){
-//     for(int i=0;i<9;i++) temp[i]=5;
-//   }
- if(z_high!=MPI_PROC_NULL){
-     MPI_Isend(&local_data[0][0][0][0],1,plane_XY_send_high,z_high,0,MPI_COMM_WORLD,&send_request_z[1]);
-   //   if(myrank==0) MPI_Irecv(temp,9,MPI_FLOAT,z_high,1,MPI_COMM_WORLD,&recv_request_z[1]);
-     MPI_Irecv(&local_data[0][0][0][0],1,plane_XY_recv_high,z_high,1,MPI_COMM_WORLD,&recv_request_z[1]);
- }
- if(z_low!=MPI_PROC_NULL){
-     MPI_Irecv(&local_data[0][0][0][0],1,plane_XY_recv_low,z_low,0,MPI_COMM_WORLD,&recv_request_z[0]);
-   //   if(myrank==1) MPI_Isend(temp,9,MPI_FLOAT,z_low,1,MPI_COMM_WORLD,&send_request_z[0]);
-   //   MPI_Isend(&local_data[1][1][1][0],1,plane_XY_send_low,z_low,1,MPI_COMM_WORLD,&send_request_z[0]);
-
-
-     MPI_Isend(&local_data[0][0][0][0],1,plane_XY_send_low,z_low,1,MPI_COMM_WORLD,&send_request_z[0]);
- }
-//    if(x_high!=MPI_PROC_NULL){
-//        MPI_Isend(&local_data[lx][1][1][0],1,plane_YZ,x_high,0,MPI_COMM_WORLD,&send_request_x[1]);
-//        MPI_Irecv(&local_data[lx+1][1][1][0],1,plane_YZ,x_high,1,MPI_COMM_WORLD,&recv_request_x[1]);
-//    }
-//    if(x_low!=MPI_PROC_NULL){
-//        MPI_Irecv(&local_data[0][1][1][0],1,plane_YZ,x_low,0,MPI_COMM_WORLD,&recv_request_x[0]);
-//        MPI_Isend(&local_data[1][1][1][0],1,plane_YZ,x_low,1,MPI_COMM_WORLD,&send_request_x[0]);
-//    }     
-//    if(y_high!=MPI_PROC_NULL){
-//        MPI_Isend(&local_data[1][ly][1][0],1,plane_XZ,y_high,0,MPI_COMM_WORLD,&send_request_y[1]);
-//        MPI_Irecv(&local_data[1][ly+1][1][0],1,plane_XZ,y_high,1,MPI_COMM_WORLD,&recv_request_y[1]);
-//    }
-//    if(y_low!=MPI_PROC_NULL){
-//        MPI_Irecv(&local_data[1][0][1][0],1,plane_XZ,y_low,0,MPI_COMM_WORLD,&recv_request_y[0]);
-//        MPI_Isend(&local_data[1][1][1][0],1,plane_XZ,y_low,1,MPI_COMM_WORLD,&send_request_y[0]);
-//    }
-//    if(z_high!=MPI_PROC_NULL){
-//        MPI_Isend(&local_data[1][1][lz][0],1,plane_XY,z_high,0,MPI_COMM_WORLD,&send_request_z[1]);
-//        MPI_Irecv(&local_data[1][1][lz+1][0],1,plane_XY,z_high,1,MPI_COMM_WORLD,&recv_request_z[1]);
-//    }
-//    if(z_low!=MPI_PROC_NULL){
-//        MPI_Irecv(&local_data[1][1][0][0],1,plane_XY,z_low,0,MPI_COMM_WORLD,&recv_request_z[0]);
-//        MPI_Isend(&local_data[1][1][1][0],1,plane_XY,z_low,1,MPI_COMM_WORLD,&send_request_z[0]);
-//    }
+//  if(x_high!=MPI_PROC_NULL){
+//      MPI_Isend(&local_data[0][0][0][0],1,plane_YZ_send_high,x_high,0,MPI_COMM_WORLD,&send_request_x[1]);
+//      MPI_Irecv(&local_data[0][0][0][0],1,plane_YZ_recv_high,x_high,1,MPI_COMM_WORLD,&recv_request_x[1]);
+//  }
+//  if(x_low!=MPI_PROC_NULL){
+//      MPI_Irecv(&local_data[0][0][0][0],1,plane_YZ_recv_low,x_low,0,MPI_COMM_WORLD,&recv_request_x[0]);
+//      MPI_Isend(&local_data[0][0][0][0],1,plane_YZ_send_low,x_low,1,MPI_COMM_WORLD,&send_request_x[0]);
+//  }
+//  if(y_high!=MPI_PROC_NULL){
+//      MPI_Isend(&local_data[0][0][0][0],1,plane_XZ_send_high,y_high,0,MPI_COMM_WORLD,&send_request_y[1]);
+//      MPI_Irecv(&local_data[0][0][0][0],1,plane_XZ_recv_high,y_high,1,MPI_COMM_WORLD,&recv_request_y[1]);
+//  }
+//  if(y_low!=MPI_PROC_NULL){
+//      MPI_Irecv(&local_data[0][0][0][0],1,plane_XZ_recv_low,y_low,0,MPI_COMM_WORLD,&recv_request_y[0]);
+//      MPI_Isend(&local_data[0][0][0][0],1,plane_XZ_send_low,y_low,1,MPI_COMM_WORLD,&send_request_y[0]);
+//  }
+//  if(z_high!=MPI_PROC_NULL){
+//      MPI_Isend(&local_data[0][0][0][0],1,plane_XY_send_high,z_high,0,MPI_COMM_WORLD,&send_request_z[1]);
+//      MPI_Irecv(&local_data[0][0][0][0],1,plane_XY_recv_high,z_high,1,MPI_COMM_WORLD,&recv_request_z[1]);
+//  }
+//  if(z_low!=MPI_PROC_NULL){
+//      MPI_Irecv(&local_data[0][0][0][0],1,plane_XY_recv_low,z_low,0,MPI_COMM_WORLD,&recv_request_z[0]);
+//      MPI_Isend(&local_data[0][0][0][0],1,plane_XY_send_low,z_low,1,MPI_COMM_WORLD,&send_request_z[0]);
+//  }
+   if(x_high!=MPI_PROC_NULL){
+       MPI_Isend(&local_data[lx][1][1][0],1,plane_YZ,x_high,0,MPI_COMM_WORLD,&send_request_x[1]);
+       MPI_Irecv(&local_data[lx+1][1][1][0],1,plane_YZ,x_high,1,MPI_COMM_WORLD,&recv_request_x[1]);
+   }
+   if(x_low!=MPI_PROC_NULL){
+       MPI_Irecv(&local_data[0][1][1][0],1,plane_YZ,x_low,0,MPI_COMM_WORLD,&recv_request_x[0]);
+       MPI_Isend(&local_data[1][1][1][0],1,plane_YZ,x_low,1,MPI_COMM_WORLD,&send_request_x[0]);
+   }     
+   if(y_high!=MPI_PROC_NULL){
+       MPI_Isend(&local_data[1][ly][1][0],1,plane_XZ,y_high,0,MPI_COMM_WORLD,&send_request_y[1]);
+       MPI_Irecv(&local_data[1][ly+1][1][0],1,plane_XZ,y_high,1,MPI_COMM_WORLD,&recv_request_y[1]);
+   }
+   if(y_low!=MPI_PROC_NULL){
+       MPI_Irecv(&local_data[1][0][1][0],1,plane_XZ,y_low,0,MPI_COMM_WORLD,&recv_request_y[0]);
+       MPI_Isend(&local_data[1][1][1][0],1,plane_XZ,y_low,1,MPI_COMM_WORLD,&send_request_y[0]);
+   }
+   if(z_high!=MPI_PROC_NULL){
+       MPI_Isend(&local_data[1][1][lz][0],1,plane_XY,z_high,0,MPI_COMM_WORLD,&send_request_z[1]);
+       MPI_Irecv(&local_data[1][1][lz+1][0],1,plane_XY,z_high,1,MPI_COMM_WORLD,&recv_request_z[1]);
+   }
+   if(z_low!=MPI_PROC_NULL){
+       MPI_Irecv(&local_data[1][1][0][0],1,plane_XY,z_low,0,MPI_COMM_WORLD,&recv_request_z[0]);
+       MPI_Isend(&local_data[1][1][1][0],1,plane_XY,z_low,1,MPI_COMM_WORLD,&send_request_z[0]);
+   }
  if(x_high!=MPI_PROC_NULL) {
      MPI_Wait(&recv_request_x[1], MPI_STATUS_IGNORE);
      MPI_Wait(&send_request_x[1], MPI_STATUS_IGNORE);
@@ -460,21 +451,21 @@ int main(int argc, char *argv[]){
  }
  // pro
  int sTime=MPI_Wtime();
- MPI_Type_free(&plane_XY_send_low);
- MPI_Type_free(&plane_XZ_send_low);
- MPI_Type_free(&plane_YZ_send_low);
- MPI_Type_free(&plane_XY_recv_low);
- MPI_Type_free(&plane_XZ_recv_low);
- MPI_Type_free(&plane_YZ_recv_low);
- MPI_Type_free(&plane_XY_send_high);
- MPI_Type_free(&plane_XZ_send_high);
- MPI_Type_free(&plane_YZ_send_high);
- MPI_Type_free(&plane_XY_recv_high);
- MPI_Type_free(&plane_XZ_recv_high);
- MPI_Type_free(&plane_YZ_recv_high);
-//    MPI_Type_free(&plane_YZ);
-//    MPI_Type_free(&plane_XZ);
-//    MPI_Type_free(&plane_XY);
+//  MPI_Type_free(&plane_XY_send_low);
+//  MPI_Type_free(&plane_XZ_send_low);
+//  MPI_Type_free(&plane_YZ_send_low);
+//  MPI_Type_free(&plane_XY_recv_low);
+//  MPI_Type_free(&plane_XZ_recv_low);
+//  MPI_Type_free(&plane_YZ_recv_low);
+//  MPI_Type_free(&plane_XY_send_high);
+//  MPI_Type_free(&plane_XZ_send_high);
+//  MPI_Type_free(&plane_YZ_send_high);
+//  MPI_Type_free(&plane_XY_recv_high);
+//  MPI_Type_free(&plane_XZ_recv_high);
+//  MPI_Type_free(&plane_YZ_recv_high);
+   MPI_Type_free(&plane_YZ);
+   MPI_Type_free(&plane_XZ);
+   MPI_Type_free(&plane_XY);
 
 
 
