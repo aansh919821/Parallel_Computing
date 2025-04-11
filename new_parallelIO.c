@@ -63,6 +63,7 @@ int main(int argc, char *argv[]){
     int lz = nz / pz;
     int nc_=nc;
     nc=get_time(lx,ly,lz,nc);
+    nc=7;
     long long int *local_minima_count = malloc(sizeof(long long int) * nc_);
     long long int *local_maxima_count = malloc(sizeof(long long int) * nc_);
     float *sub_global_minima = malloc(sizeof(float) * nc_);
@@ -138,8 +139,9 @@ int main(int argc, char *argv[]){
                 }
                 else{
                     for(int local_x=0;local_x<lx;local_x++){
-                        offset = (MPI_Offset)((((global_z * ny + global_y) * nx + global_x_start) * nc + time)* sizeof(float));
-                        MPI_File_read_at(fh,offset,local_inner + row_index * lx * nc + local_x*k,k,MPI_FLOAT, &status);
+			int global_x = global_x_start+local_x;
+                        offset = (MPI_Offset)((((global_z * ny + global_y) * nx + global_x) * nc_ + time)* sizeof(float));
+                        MPI_File_read_at(fh,offset,local_inner + row_index * lx * k + local_x*k,k,MPI_FLOAT, &status);
                     }
                 }
             }
@@ -220,12 +222,12 @@ int main(int argc, char *argv[]){
             MPI_Wait(&recv_request_z[0], MPI_STATUS_IGNORE);
             MPI_Wait(&send_request_z[0], MPI_STATUS_IGNORE);
         }
-        for (int c = time; c < (time + k); c++)
+        for (int c = 0; c < ( k); c++)
         {
-            sub_global_maxima[c] = local_data[1][1][1][c];
-            sub_global_minima[c] = local_data[1][1][1][c];
-            local_minima_count[c] = 0;
-            local_maxima_count[c] = 0;
+            sub_global_maxima[c+time] = local_data[1][1][1][c];
+            sub_global_minima[c+time] = local_data[1][1][1][c];
+            local_minima_count[c+time] = 0;
+            local_maxima_count[c+time] = 0;
             for (int x = 1; x < lx + 1; x++)
             {
                 for (int y = 1; y < ly + 1; y++)
@@ -233,8 +235,8 @@ int main(int argc, char *argv[]){
                     for (int z = 1; z < lz + 1; z++)
                     {
                         bool mini = true, maxi = true;
-                        sub_global_maxima[c] = max(sub_global_maxima[c], local_data[x][y][z][c]);
-                        sub_global_minima[c] = min(sub_global_minima[c], local_data[x][y][z][c]);
+                        sub_global_maxima[c+time] = max(sub_global_maxima[c+time], local_data[x][y][z][c]);
+                        sub_global_minima[c+time] = min(sub_global_minima[c+time], local_data[x][y][z][c]);
                         if (x > 1 || (x_low != MPI_PROC_NULL))
                         {
                             if (local_data[x - 1][y][z][c] >= local_data[x][y][z][c])
@@ -279,11 +281,11 @@ int main(int argc, char *argv[]){
                         }
                         if (maxi)
                         {
-                            local_maxima_count[c]++;                            
+                            local_maxima_count[c+time]++;                            
                         }
                         if (mini)
                         {
-                            local_minima_count[c]++;                            
+                            local_minima_count[c+time]++;                            
                         }
                     }
                 }
