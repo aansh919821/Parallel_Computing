@@ -63,7 +63,6 @@ int main(int argc, char *argv[]){
     int lz = nz / pz;
     int nc_=nc;
     nc=get_time(lx,ly,lz,nc);
-    nc=7;
     long long int *local_minima_count = malloc(sizeof(long long int) * nc_);
     long long int *local_maxima_count = malloc(sizeof(long long int) * nc_);
     float *sub_global_minima = malloc(sizeof(float) * nc_);
