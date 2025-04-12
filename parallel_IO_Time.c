@@ -12,11 +12,11 @@ float min(float a, float b)
 {
     return (a < b) ? a : b;
 }
-int get_time(int nx, int ny, int nz,int nc){
+long long get_time(long long nx, long long ny, long long nz,long long nc){
     unsigned long long x=1024*1024*1024;x*=10;
     x /=(nx*ny*nz);
     if(x>(unsigned long long)nc) return nc;
-    else return (int)x;
+    else return (long long)x;
 }
 int main(int argc, char *argv[]){
     int myrank, size;
@@ -37,13 +37,13 @@ int main(int argc, char *argv[]){
     }
 
     const char *file1 = argv[1];
-    int px = atoi(argv[2]);
-    int py = atoi(argv[3]);
-    int pz = atoi(argv[4]);
-    int nx = atoi(argv[5]);
-    int ny = atoi(argv[6]);
-    int nz = atoi(argv[7]);
-    int nc = atoi(argv[8]);
+    long long px = atoi(argv[2]);
+    long long py = atoi(argv[3]);
+    long long pz = atoi(argv[4]);
+    long long nx = atoi(argv[5]);
+    long long ny = atoi(argv[6]);
+    long long nz = atoi(argv[7]);
+    long long nc = atoi(argv[8]);
     const char *output_file = argv[9];
     if (size != (px * py * pz))
     {
@@ -58,10 +58,10 @@ int main(int argc, char *argv[]){
     assert(ny % py == 0);
     assert(nz % pz == 0);
 
-    int lx = nx / px;
-    int ly = ny / py;
-    int lz = nz / pz;
-    int nc_=nc;
+    long long lx = nx / px;
+    long long ly = ny / py;
+    long long lz = nz / pz;
+    long long nc_=nc;
     nc=get_time(lx,ly,lz,nc);
     long long int *local_minima_count = malloc(sizeof(long long int) * nc_);
     long long int *local_maxima_count = malloc(sizeof(long long int) * nc_);
@@ -93,15 +93,15 @@ int main(int argc, char *argv[]){
     int z_high = (process_z_coordinate < pz - 1) ? myrank + 1 : MPI_PROC_NULL;
     float *lin_data2 = malloc(sizeof(float) * (lx + 2) * (ly + 2) * (lz + 2) * nc);
     float ****local_data = (float ****)malloc((lx + 2) * sizeof(float ***));
-    for (int x = 0; x < lx + 2; x++)
+    for (long long x = 0; x < lx + 2; x++)
     {
         local_data[x] = (float ***)malloc((ly + 2) * sizeof(float **));
-        for (int y = 0; y < ly + 2; y++)
+        for (long long y = 0; y < ly + 2; y++)
         {
             local_data[x][y] = (float **)malloc((lz + 2) * sizeof(float *));
-            for (int z = 0; z < lz + 2; z++)
+            for (long long z = 0; z < lz + 2; z++)
             {
-                int index = x * (ly + 2) * (lz + 2) * nc + y * (lz + 2) * nc + z * nc;
+                long long index = x * (ly + 2) * (lz + 2) * nc + y * (lz + 2) * nc + z * nc;
                 local_data[x][y][z] = &lin_data2[index];
             }
         }
@@ -114,9 +114,9 @@ int main(int argc, char *argv[]){
     int pz_idx = remainder % pz;
 
     // Global starting indices for this process’s sub-volume (data is stored in XYZ order)
-    int global_x_start = px_idx * lx;
-    int global_y_start = py_idx * ly;
-    int global_z_start = pz_idx * lz;
+    long long global_x_start = px_idx * lx;
+    long long global_y_start = py_idx * ly;
+    long long global_z_start = pz_idx * lz;
 
     float *local_inner = malloc(sizeof(float) * lx * ly * lz * nc);
     MPI_File fh;
@@ -124,39 +124,39 @@ int main(int argc, char *argv[]){
     double t_compute=0;
     double t_comm=0;
     double t_total=0;
-    for(int time=0;time<nc_;time+=nc){
+    for(long long time=0;time<nc_;time+=nc){
     double time1=MPI_Wtime();
-        int k=nc_-time;
+        long long k=nc_-time;
         if(k>nc) k=nc;
-        for (int local_z = 0; local_z < lz; local_z++)
+        for (long long local_z = 0; local_z < lz; local_z++)
         {
-            int global_z = global_z_start + local_z;
-            for (int local_y = 0; local_y < ly; local_y++)
+            long long global_z = global_z_start + local_z;
+            for (long long local_y = 0; local_y < ly; local_y++)
             {
-                int global_y = global_y_start + local_y;
+                long long global_y = global_y_start + local_y;
                 MPI_Offset offset;
-                int row_index = (local_z * ly + local_y);
+                long long row_index = (local_z * ly + local_y);
                 if(k==nc_){
                     offset = (MPI_Offset)(((global_z * ny + global_y) * nx + global_x_start) * nc * sizeof(float));
                     MPI_File_read_at(fh, offset, local_inner + row_index * lx * nc, lx * nc, MPI_FLOAT, &status);
                 }
                 else{
-                    for(int local_x=0;local_x<lx;local_x++){
-			int global_x = global_x_start+local_x;
+                    for(long long local_x=0;local_x<lx;local_x++){
+			long long global_x = global_x_start+local_x;
                         offset = (MPI_Offset)((((global_z * ny + global_y) * nx + global_x) * nc_ + time)* sizeof(float));
                         MPI_File_read_at(fh,offset,local_inner + row_index * lx * k + local_x*k,k,MPI_FLOAT, &status);
                     }
                 }
             }
         }
-        int idx = 0;
-        for (int local_z = 0; local_z < lz; local_z++)
+        long long idx = 0;
+        for (long long local_z = 0; local_z < lz; local_z++)
         {
-            for (int local_y = 0; local_y < ly; local_y++)
+            for (long long local_y = 0; local_y < ly; local_y++)
             {
-                for (int local_x = 0; local_x < lx; local_x++)
+                for (long long local_x = 0; local_x < lx; local_x++)
                 {
-                    for (int t = 0; t < k; t++)
+                    for (long long t = 0; t < k; t++)
                     {
                         local_data[local_x + 1][local_y + 1][local_z + 1][t] = local_inner[idx++];
                     }
@@ -226,17 +226,17 @@ int main(int argc, char *argv[]){
             MPI_Wait(&recv_request_z[0], MPI_STATUS_IGNORE);
             MPI_Wait(&send_request_z[0], MPI_STATUS_IGNORE);
         }
-        for (int c = 0; c < ( k); c++)
+        for (long long c = 0; c < ( k); c++)
         {
             sub_global_maxima[c+time] = local_data[1][1][1][c];
             sub_global_minima[c+time] = local_data[1][1][1][c];
             local_minima_count[c+time] = 0;
             local_maxima_count[c+time] = 0;
-            for (int x = 1; x < lx + 1; x++)
+            for (long long x = 1; x < lx + 1; x++)
             {
-                for (int y = 1; y < ly + 1; y++)
+                for (long long y = 1; y < ly + 1; y++)
                 {
-                    for (int z = 1; z < lz + 1; z++)
+                    for (long long z = 1; z < lz + 1; z++)
                     {
                         bool mini = true, maxi = true;
                         sub_global_maxima[c+time] = max(sub_global_maxima[c+time], local_data[x][y][z][c]);
