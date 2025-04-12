@@ -22,7 +22,6 @@ int main(int argc, char *argv[]){
     int myrank, size;
     MPI_Status status;
     MPI_Init(&argc, &argv);
-    double time1 = MPI_Wtime();
     MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
