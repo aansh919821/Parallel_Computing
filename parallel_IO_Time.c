@@ -120,8 +120,8 @@ int main(int argc, char *argv[]){
     float *local_inner = malloc(sizeof(float) * lx * ly * lz * nc);
     MPI_File fh;
     MPI_File_open(MPI_COMM_WORLD, file1, MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
-    double t_compute=0;
-    double t_comm=0;
+    double t_main=0;
+    double t_read=0;
     double t_total=0;
     for(long long time=0;time<nc_;time+=nc){
     double time1=MPI_Wtime();
@@ -295,8 +295,8 @@ int main(int argc, char *argv[]){
             }
         }
            double time3=MPI_Wtime();
-          t_compute+=(time3-time2);
-          t_comm+=(time2-time1);
+          t_main+=(time3-time2);
+          t_read+=(time2-time1);
           t_total+=(time3-time1);
     }
       double time4=MPI_Wtime(); 
@@ -312,10 +312,10 @@ int main(int argc, char *argv[]){
     MPI_Reduce(sub_global_maxima, global_maxima, nc, MPI_FLOAT, MPI_MAX, 0, MPI_COMM_WORLD);
     MPI_Reduce(sub_global_minima, global_minima, nc, MPI_FLOAT, MPI_MIN, 0, MPI_COMM_WORLD);
     MPI_Reduce(&t_total,   &t_total_max,   1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
-MPI_Reduce(&t_comm,    &t_read_max,    1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
-MPI_Reduce(&t_compute, &t_main_max, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
+MPI_Reduce(&t_read,    &t_read_max,    1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
+MPI_Reduce(&t_main, &t_main_max, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
   double time5=MPI_Wtime();
-  t_compute+=time5-time4;
+  t_main+=time5-time4;
     if (myrank == 0)
     {
    FILE *fp = fopen(output_file, "w");
