@@ -300,7 +300,7 @@ int main(int argc, char *argv[]){
           t_total+=(time3-time1);
     }
       double time4=MPI_Wtime(); 
-    double t_total_max, t_comm_max, t_compute_max;
+    double t_total_max, t_read_max, t_main_max;
     nc=nc_;
    
     long long int *local_minima_total = malloc(sizeof(long long int) * nc);
@@ -312,8 +312,8 @@ int main(int argc, char *argv[]){
     MPI_Reduce(sub_global_maxima, global_maxima, nc, MPI_FLOAT, MPI_MAX, 0, MPI_COMM_WORLD);
     MPI_Reduce(sub_global_minima, global_minima, nc, MPI_FLOAT, MPI_MIN, 0, MPI_COMM_WORLD);
     MPI_Reduce(&t_total,   &t_total_max,   1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
-MPI_Reduce(&t_comm,    &t_comm_max,    1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
-MPI_Reduce(&t_compute, &t_compute_max, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
+MPI_Reduce(&t_comm,    &t_read_max,    1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
+MPI_Reduce(&t_compute, &t_main_max, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
   double time5=MPI_Wtime();
   t_compute+=time5-time4;
     if (myrank == 0)
@@ -337,7 +337,7 @@ for (int i = 0; i < nc; i++) {
     if (i != nc - 1) fprintf(fp, ", ");
 }
 fprintf(fp, "\n");
-fprintf(fp, "%.6lf, %.6lf, %.6lf\n", t_comm_max, t_compute_max, t_total_max);
+fprintf(fp, "%.6lf, %.6lf, %.6lf\n", t_read_max, t_main_max, t_total_max);
 
 fclose(fp);
     }
