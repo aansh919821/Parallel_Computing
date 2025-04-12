@@ -306,25 +306,43 @@ MPI_Type_free(&send_subarray);
  MPI_Reduce(sub_global_maxima,global_maxima,nc,MPI_FLOAT,MPI_MAX,0,MPI_COMM_WORLD);
  MPI_Reduce(sub_global_minima,global_minima,nc,MPI_FLOAT,MPI_MIN,0,MPI_COMM_WORLD);
  double time3 = MPI_Wtime();
- if(myrank==0){
-     for(int i=0;i<nc;i++) printf("{%lld, %lld}, ",local_minima_total[i],local_maxima_total[i]);
-     printf("\n");
-     for(int i=0;i<nc;i++) printf("{%f, %f}, ",global_minima[i],global_maxima[i]);
-     printf("\n");
- }
+
  // pro
-double time4=MPI_Wtime();
-double time_read = time2 - time1;
+
+
+double max_time_read,max_time_main,max_time_total;
+
+ double time4=MPI_Wtime();
+ double time_read = time2 - time1;
 double time_main = time3 - time2;
 double total_time = time4 - time1;
-double max_time_read,max_time_main,max_time_total;
-MPI_Reduce(&time_read, &max_time_read, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
+ MPI_Reduce(&time_read, &max_time_read, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
 MPI_Reduce(&time_main, &max_time_main, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
 MPI_Reduce(&total_time, &max_time_total, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
-    if (myrank == 0) {
-        printf("Max File Read & Data Distribution Time: %.6f seconds\n", max_time_read);
-        printf("Max Main Computation Time: %.6f seconds\n", max_time_main);
-        printf("Max Total Execution Time: %.6f seconds\n", max_time_total);
+ if (myrank == 0)
+    {
+   FILE *fp = fopen(output_file, "w");
+if (!fp) {
+    perror("Failed to open output file");
+    MPI_Abort(MPI_COMM_WORLD, 1);
+}
+
+// Line 1: (count of local minima, count of local maxima), ...
+for (int i = 0; i < nc; i++) {
+    fprintf(fp, "(%lld,%lld)", local_minima_total[i], local_maxima_total[i]);
+    if (i != nc - 1) fprintf(fp, ", ");
+}
+fprintf(fp, "\n");
+
+// Line 2: (global minimum, global maximum), ...
+for (int i = 0; i < nc; i++) {
+    fprintf(fp, "(%f,%f)", global_minima[i], global_maxima[i]);
+    if (i != nc - 1) fprintf(fp, ", ");
+}
+fprintf(fp, "\n");
+fprintf(fp, "%.6lf, %.6lf, %.6lf\n", max_time_read, max_time_main, max_time_total);
+
+fclose(fp);
     }
    MPI_Type_free(&plane_YZ);
    MPI_Type_free(&plane_XZ);
